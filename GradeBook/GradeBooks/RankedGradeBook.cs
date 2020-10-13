@@ -11,7 +11,7 @@ namespace GradeBook.GradeBooks
             Type = GradeBookType.Ranked;
         }
 
-        public override char GetLetterGrade(double avgGrade)
+        public override char GetLetterGrade(double averageGrade)
         {
             int allStudents = Students.Count;
 
@@ -23,7 +23,7 @@ namespace GradeBook.GradeBooks
             int studentsWithHigherAverageGrade =
                 Students
                 .Select(a => a)
-                .Where(a => a.AverageGrade >= avgGrade)
+                .Where(a => a.AverageGrade >= averageGrade)
                 .Count();
             var percentOFStudentsWithHighAverage = Decimal.Divide(studentsWithHigherAverageGrade, allStudents) * 100;
             var percent = (100 - percentOFStudentsWithHighAverage);
@@ -41,6 +41,26 @@ namespace GradeBook.GradeBooks
                 default:
                     return 'F';
             }
+        }
+
+        public override void CalculateStatistics()
+        {
+            if (Students.Count < 5)
+            {
+                Console.WriteLine("Ranked grading requires at least 5 students.");
+                return;
+            }
+            base.CalculateStatistics();
+        }
+
+        public override void CalculateStudentStatistics(string name)
+        {
+            if (Students.Count < 5)
+            {
+                Console.WriteLine("Ranked grading requires at least 5 students.");
+                return;
+            }
+            base.CalculateStudentStatistics(name);
         }
     }
 }
